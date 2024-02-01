@@ -1,0 +1,56 @@
+---
+- name: Install Docker and run Docker image as a service
+  hosts: all
+  become: true
+  vars:
+    docker_password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      32653264663238633032313364633134316162646132323330643361343434366164616138343166
+      3232393337663464383230346530363930626334373132310a363430376437333663353039636561
+      37333932323565626565373233343337666334633866633232346136623633323439346633353033
+      3730376562643239390a303438366530336233336638343565326439393430343465336265323039
+      31343964383562313663656265646533373763376666353134623339303134313932343739343062
+      3235666461343532306435626164616365643863663663363565
+  tasks:
+    - name: Install pip for Python 2
+      package:
+        name: python-pip
+        state: present
+      when: ansible_python.version.major == 2
+
+    - name: Install pip for Python 3
+      package:
+        name: python3-pip
+        state: present
+      when: ansible_python.version.major vault_password_file== 3
+
+    - name: Install Docker Python module
+      command:
+        cmd: "/usr/bin/python2.7 -m pip install docker --ignore-installed"
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Log in to Docker registry
+      docker_login:
+        registry_url: "ghcr.io/abila98"
+        username: "abila98"
+        password: "{{ docker_password }}" 
+
+    - name: Create systemd service file
+      template:
+        src: docker_service.service.j2
+        dest: /etc/systemd/system/docker_service.service
+      notify:
+        - Reload systemd
+
+  handlers:
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+        state: restarted
+        name: docker_service
+

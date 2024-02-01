@@ -1,0 +1,13 @@
+[Unit]
+Description=Docker Service for Coffee App
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --name coffeeapp -p 8080:8080 ghcr.io/abila98/coffeeapp:latest
+ExecStop=/usr/bin/docker stop -t 2 coffeeapp
+
+[Install]
+WantedBy=multi-user.target
+
