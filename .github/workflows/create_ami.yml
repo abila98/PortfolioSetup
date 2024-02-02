@@ -55,5 +55,5 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
           AWS_SECRET_ACCESS_KEY: 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
-          PACKER_SSH_KEY_FILE: temporary_key.pem
+
 
