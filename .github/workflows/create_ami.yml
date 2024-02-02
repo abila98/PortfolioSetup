@@ -43,7 +43,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
     
       - name: Install Ansible
-        uses: ansible/ansible-runner-action@v2
+        uses: ansible/ansible@main
         with:
           ansible-version: 'latest'
           
