@@ -34,9 +34,9 @@ jobs:
           echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
           cat vault_password_file  # Debugging step to verify the contents
 
-      # - name: Run Packer Build
-      #   run: |
-      #     packer build -var 'tag_version=1' -var-file vault_password_file ami/ami.json
-      #   env:
-      #     AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
-      #     AWS_SECRET_ACCESS_KEY: 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
+      - name: Run Packer Build
+        run: |
+          packer build -var 'tag_version=1' -var-file vault_password_file ami/ami.json
+        env:
+          AWS_ACCESS_KEY_ID: "AKIAW775JRWDIKCYKVW6"  # Set credentials within the job
+          AWS_SECRET_ACCESS_KEY: "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"
