@@ -35,7 +35,6 @@
     },
     {
       "type": "ansible",
-      "ansible_proxy_key_type": "rsa",
       "playbook_file": "ami/ansible/deploy.yml",
       "extra_arguments": [
         "--vault-password-file=vault_password_file"
