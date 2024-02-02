@@ -31,4 +31,4 @@ jobs:
 
       - name: Run Packer Build
         run: |
-          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami.json
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
