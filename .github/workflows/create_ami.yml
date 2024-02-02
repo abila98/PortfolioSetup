@@ -37,3 +37,6 @@ jobs:
       - name: Run Packer Build
         run: |
           packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' -var 'ansible_ssh_common_args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"' ami/ami.json
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
