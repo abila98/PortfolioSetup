@@ -1,7 +1,7 @@
 name: Packer Build on Tag
 
 on:
-  create:
+  push:
     branches:
       - 'release/*' # Trigger workflow on tags that start with 'v'
 
@@ -31,4 +31,4 @@ jobs:
 
       - name: Run Packer Build
         run: |
-          packer build -var-var "vault_password_file=vault_password_file" -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami.json
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami.json
