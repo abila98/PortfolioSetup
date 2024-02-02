@@ -32,6 +32,16 @@ jobs:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
         run: echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
 
+      - name: Setup SSH 
+        shell: bash
+        run: |
+         eval `ssh-agent -s`
+         mkdir -p /home/runner/.ssh/
+         touch /home/runner/.ssh/id_rsa
+         echo -e "${{secrets.SSH_KEY}}" > /home/runner/.ssh/id_rsa
+         chmod 700 /home/runner/.ssh/id_rsa
+         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.SSH_HOST}} >> /home/runner/.ssh/known_hosts
+
       - name: Run Packer Build
         run: |
           packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
