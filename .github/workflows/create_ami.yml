@@ -36,8 +36,7 @@ jobs:
         shell: bash
         run: |
          # Stop the current ssh-agent process
-         eval "$(ssh-agent -k)"
-         eval "$(ssh-agent -s)"
+         sudo systemctl restart sshd
 
       - name: Run Packer Build
         run: |
