@@ -2,6 +2,7 @@
 - name: Install Docker and run Docker image as a service
   hosts: all
   become: true
+
   vars:
     docker_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -22,11 +23,24 @@
       package:
         name: python3-pip
         state: present
-      when: ansible_python.version.major vault_password_file== 3
+      when: ansible_python.version.major == 3
 
-    - name: Install Docker Python module
-      command:
-        cmd: "/usr/bin/python2.7 -m pip install docker --ignore-installed"
+
+    - name: Install Docker
+      become: true
+      yum:
+       name: docker
+       state: present
+
+    - name: Install Docker SDK for Python
+      command: "/usr/bin/python2.7 -m pip install docker --ignore-installed"
+
+    - name: Start Docker service
+      become: true
+      service:
+        name: docker
+        state: started
+        enabled: yes
 
     - name: Start Docker service
       service:

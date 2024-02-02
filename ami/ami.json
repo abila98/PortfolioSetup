@@ -3,14 +3,16 @@
     "region": "us-west-1",
     "instance_type": "t2.micro",
     "ami_id": "ami-015e832ac6a60f0de",
-    "owner_acc_id": "137112412989"
+    "owner_acc_id": "137112412989",
+    "tag_version": "user `tag_version`",
+    "ansible_vault_password": ""
    },
   "builders": [
     {
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
-      "ami_name": "my-ami",
+      "ami_name": "coffee-{{user `tag_version`}}",
       "source_ami_filter": {
         "filters": {
           "root-device-type": "ebs",
@@ -34,9 +36,9 @@
       "type": "ansible",
       "playbook_file": "ansible/deploy.yml",
       "extra_arguments": [
-        "--vault-password-file", "vault_password_file"
+        "--vault-password-file=vault_password_file"
       ]
-    }
-  ]
-}
 
+    } 
+  ]   
+}
