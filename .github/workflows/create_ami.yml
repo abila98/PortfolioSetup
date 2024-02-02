@@ -1,0 +1,34 @@
+name: Packer Build on Tag
+
+on:
+  push:
+    tags:
+      - 'release/*' # Trigger workflow on tags that start with 'v'
+
+jobs:
+  packer_build:
+    name: Packer Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Packer
+        run: |
+          wget https://releases.hashicorp.com/packer/1.7.4/packer_1.7.4_linux_amd64.zip
+          unzip packer_1.7.4_linux_amd64.zip
+          sudo mv packer /usr/local/bin/
+          
+      - name: Extract version from branch name
+        id: extract-version
+        run: echo "::set-output name=version::${GITHUB_REF#refs/heads/release/}"
+      
+      - name: Decrypt vault password file
+        env:
+          VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
+        run: echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
+
+      - name: Run Packer Build
+        run: |
+          packer build -var-var "vault_password_file=vault_password_file" -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami.json
