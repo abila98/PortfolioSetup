@@ -10,6 +10,7 @@
   "builders": [
     {
       "type": "amazon-ebs",
+      "ssh_allowed_types": "ssh-rsa,dsa",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
       "ami_name": "coffee-{{user `tag_version`}}",
@@ -25,7 +26,6 @@
       "ami_regions": ["{{user `region`}}"]
     }
   ],
-  "ssh_allowed_types": "ssh-rsa,dsa",
   "provisioners": [
     {
       "type": "shell",
