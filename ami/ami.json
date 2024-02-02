@@ -34,6 +34,7 @@
     },
     {
       "type": "ansible",
+      "ssh_host_key_algorithm": "rsa,dsa,ecdsa,ed25519",
       "playbook_file": "ami/ansible/deploy.yml",
       "extra_arguments": [
         "--vault-password-file=vault_password_file"
