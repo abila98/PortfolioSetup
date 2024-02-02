@@ -22,7 +22,7 @@
         "owners": ["{{user `owner_acc_id`}}"]
       },
       "ssh_username": "ec2-user",
-      "ssh_agent_auth" = "false",
+      "ssh_agent_auth": "false",
       "ami_regions": ["{{user `region`}}"]
     }
   ],
