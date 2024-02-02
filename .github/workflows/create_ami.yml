@@ -37,11 +37,24 @@ jobs:
           echo "PACKER_SSH_KEY=$(secrets.SSH_KEY)" >> $GITHUB_ENV
           echo "AWS_ACCESS_KEY_ID=$(secrets.AWS_ACCESS_KEY_ID)" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=$(secrets.AWS_SECRET_ACCESS_KEY)" >> $GITHUB_ENV
+          
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v1
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
 
-        
+      - name: Generate key
+        run: |
+            ssh-keygen -b 4096 -t rsa -m PEM -C "temporary-key" -f temporary_key.pem
+            chmod 600 temporary_key.pem
+            ssh-add temporary_key.pem
+
+
       - name: Run Packer Build
         run: |
           packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
         env:
           AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
           AWS_SECRET_ACCESS_KEY: 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
+          PACKER_SSH_KEY_FILE: temporary_key.pem
+
