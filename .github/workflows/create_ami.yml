@@ -38,8 +38,8 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=$(secrets.AWS_ACCESS_KEY_ID)" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=$(secrets.AWS_SECRET_ACCESS_KEY)" >> $GITHUB_ENV
           
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@main
+      - name: Set up SSH with provided key
+        uses: actions/runner-setup-ssh@v3
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
