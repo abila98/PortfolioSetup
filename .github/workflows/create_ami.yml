@@ -55,6 +55,9 @@ jobs:
           chmod 600 temporary_key.pem
 
       - name: Add temporary key to agent
+        run: eval "$(ssh-agent -s)"
+        
+      - name: Add temporary key to agent
         run: ssh-add temporary_key.pem
 
       - name: Set Packer temporary key environment variable
