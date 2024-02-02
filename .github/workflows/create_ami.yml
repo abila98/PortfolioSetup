@@ -1,8 +1,8 @@
 name: Packer Build on Tag
 
 on:
-  push:
-    tags:
+  create:
+    branches:
       - 'release/*' # Trigger workflow on tags that start with 'v'
 
 jobs:
