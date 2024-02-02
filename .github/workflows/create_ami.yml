@@ -35,12 +35,9 @@ jobs:
       - name: Setup SSH 
         shell: bash
         run: |
-         eval `ssh-agent -s`
-         mkdir -p /home/runner/.ssh/
-         touch /home/runner/.ssh/id_rsa
-         echo -e "${{secrets.SSH_KEY}}" > /home/runner/.ssh/id_rsa
-         chmod 700 /home/runner/.ssh/id_rsa
-         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.SSH_HOST}} >> /home/runner/.ssh/known_hosts
+         # Stop the current ssh-agent process
+         eval "$(ssh-agent -k)"
+         eval "$(ssh-agent -s)"
 
       - name: Run Packer Build
         run: |
