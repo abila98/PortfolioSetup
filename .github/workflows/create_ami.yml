@@ -34,20 +34,6 @@ jobs:
           echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
           cat vault_password_file  # Debugging step to verify the contents
 
-      - name: Start SSH agent
-        run: eval "$(ssh-agent -s)"
-          
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-    
-          
-      - name: Copy SSH private key to a file
-        run: |
-         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh_key
-         chmod 600 /tmp/ssh_key
-         
       - name: Run Packer Build
         run: |
-          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' -var "ansible_ssh_private_key_file=/tmp/ssh_key" -var 'ansible_ssh_common_args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"' ami/ami.json
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' -var 'ansible_ssh_common_args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"' ami/ami.json
