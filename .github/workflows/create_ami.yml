@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Packer Build
         run: |
-          ssh -oHostKeyAlgorithms=+ssh-dss -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes ec2-user@127.0.0.1 packer build -var 'tag_version=1' -var-file vault_password_file ami/ami.json
+          ssh -oHostKeyAlgorithms=+ssh-dss -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes root@127.0.0.1 packer build -var 'tag_version=1' -var-file vault_password_file ami/ami.json
         env:
           AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
           AWS_SECRET_ACCESS_KEY: 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
