@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
          # Stop the current ssh-agent process
-         sudo systemctl restart sshd
+         sudo service ssh restart
 
       - name: Run Packer Build
         run: |
