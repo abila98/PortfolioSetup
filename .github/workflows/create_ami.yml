@@ -3,7 +3,7 @@ name: Packer Build on Tag
 on:
   push:
     branches:
-      - 'release/*' # Trigger workflow on tags that start with 'v'
+      - 'release/*'
 
 jobs:
   packer_build:
@@ -30,13 +30,13 @@ jobs:
       - name: Decrypt vault password file
         env:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
-        run: echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
-      - name: Start SSH agent
         run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_AGENT_PID" > $RUNNER_TEMP/ssh-agent.pid  # Store PID for later cleanup
-          
+          echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
+          cat vault_password_file  # Debugging step to verify the contents
 
+      - name: Start SSH agent
+        run: eval "$(ssh-agent -s)"
+          
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -46,14 +46,12 @@ jobs:
         uses: ansible/ansible-runner-action@v2
         with:
           ansible-version: 'latest'
-
+          
+      - name: Copy SSH private key to a file
+        run: |
+         echo "${{ secrets.SSH_KEY }}" > /tmp/ssh_key
+         chmod 600 /tmp/ssh_key
+         
       - name: Run Packer Build
         run: |
-          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
-        env:
-          AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
-          AWS_SECRET_ACCESS_KEY: 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
-          SSH_OPTIONS: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"
-
-
-
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' -var "ansible_ssh_private_key_file=/tmp/ssh_key" -var 'ansible_ssh_common_args="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes"' ami/ami.json
