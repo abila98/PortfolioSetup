@@ -31,6 +31,13 @@ jobs:
         env:
           VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
         run: echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
+      - name: Start SSH agent
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "$SSH_AGENT_PID" > $RUNNER_TEMP/ssh-agent.pid  # Store PID for later cleanup
+          
+      - name: Set key permissions
+        run: chmod 600 temporary_key.pem
         
       - name: Set Packer environment variables
         run: |
