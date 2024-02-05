@@ -1,4 +1,4 @@
-name: Packer Build on Tag
+name: Packer AMI build
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
 
   packer_build:
     name: Packer Build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -30,7 +30,7 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
           
-      - name: Vault Password file
+      - name: Setup Vault Password file
         run: |
           echo "${{ secrets.VAULT_PASSWORD_FILE }}" >> ami/vault_password_file
         
