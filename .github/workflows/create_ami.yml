@@ -27,16 +27,16 @@ jobs:
         id: extract-version
         run: echo "::set-output name=version::${GITHUB_REF#refs/heads/release/}"
       
-      - name: Decrypt vault password file
-        env:
-          VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
-        run: |
-          echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
-          cat vault_password_file  # Debugging step to verify the contents
+      # - name: Decrypt vault password file
+      #   env:
+      #     VAULT_PASSWORD_FILE: ${{ secrets.VAULT_PASSWORD_FILE }}
+      #   run: |
+      #     echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
+      #     cat vault_password_file  # Debugging step to verify the contents
 
       - name: Run Packer Build
         run: |
-          packer build -var 'tag_version=1' -var-file vault_password_file ami/ami.json
+          packer build -var 'tag_version=3' ami/ami.json
         env:
           AWS_ACCESS_KEY_ID: "AKIAW775JRWDIKCYKVW6"  # Set credentials within the job
           AWS_SECRET_ACCESS_KEY: "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"
