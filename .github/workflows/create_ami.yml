@@ -9,9 +9,9 @@ jobs:
   packer_build:
     name: Packer Build
     runs-on: self-hosted
-    env:
-       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
-       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+    # env:
+    #    AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
+    #    AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
     steps:
       - name: Checkout code
@@ -33,10 +33,14 @@ jobs:
       #   run: |
       #     echo "$VAULT_PASSWORD_FILE" | base64 --decode > vault_password_file
       #     cat vault_password_file  # Debugging step to verify the contents
+      - name: Set up AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
 
       - name: Run Packer Build
         run: |
           packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
-        env:
-          AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
-          AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        # env:
+        #   AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
+        #   AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
