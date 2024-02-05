@@ -2,8 +2,8 @@
   "variables": {
     "region": "us-west-1",
     "instance_type": "t2.micro",
-    "ami_id": "ami-0ce2cb35386fc22e9",
-    "owner_acc_id": "099720109477",
+    "ami_id": "ami-015e832ac6a60f0de",
+    "owner_acc_id": "137112412989",
     "tag_version": "user `tag_version`",
     "ansible_vault_password": ""
    },
@@ -21,7 +21,7 @@
         "most_recent": true,
         "owners": ["{{user `owner_acc_id`}}"]
       },
-      "ssh_username": "ubuntu",
+      "ssh_username": "ec2-user",
       "ssh_agent_auth": "false",
       "ami_regions": ["{{user `region`}}"]
     }
