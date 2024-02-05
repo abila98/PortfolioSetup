@@ -1,0 +1,33 @@
+name: Terraform Deployment
+
+on:
+  push:
+    branches:
+      - release/*  # Adjust this to match your main branch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.7.2  # Adjust this to match your Terraform version
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan -input=false -out=tfplan
+
+    # - name: Terraform Apply
+    #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only apply on main branch
+    #   run: terraform apply -input=false tfplan
+    #   env:
+    #     TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     TF_VAR_aws_region: "us-west-1"  # Adjust this to match your desired region
