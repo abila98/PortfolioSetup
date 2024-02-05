@@ -36,11 +36,9 @@
     {
       "type": "ansible",
       "playbook_file": "ami/ansible/deploy.yml",
+      "ansible_ssh_extra_args": ["-oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa"]
       "extra_arguments": [
         "--vault-password-file=ami/vault_password_file"
-      ],
-       ansible_ssh_extra_args = [                                                    
-        "-oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedKeyTypes=+ssh-rsa"]      
-    } 
+      ]
   ]   
 }
