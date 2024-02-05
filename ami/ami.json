@@ -37,7 +37,7 @@
       "type": "ansible",
       "playbook_file": "ami/ansible/deploy.yml",
       "extra_arguments": [
-        "--vault-password-file=vault_password_file"
+        "--vault-password-file=ami/vault_password_file"
       ]
 
     } 
