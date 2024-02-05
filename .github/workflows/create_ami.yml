@@ -10,8 +10,8 @@ jobs:
     name: Packer Build
     runs-on: self-hosted
     env:
-      AWS_ACCESS_KEY_ID: AKIAW775JRWDIKCYKVW6  # Set credentials within the job
-      AWS_SECRET_ACCESS_KEY: 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
+       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
+       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
     steps:
       - name: Checkout code
