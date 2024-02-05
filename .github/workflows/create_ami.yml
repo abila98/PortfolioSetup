@@ -36,7 +36,7 @@ jobs:
 
       - name: Run Packer Build
         run: |
-          packer build -var '${{ steps.extract-version.outputs.version }}' ami/ami.json
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
         env:
           AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"  # Set credentials within the job
           AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
