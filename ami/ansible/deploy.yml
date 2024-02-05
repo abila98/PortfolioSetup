@@ -61,6 +61,12 @@
       notify:
         - Reload systemd
 
+    - name: Start App service
+      service:
+        name: docker_service
+        state: started
+        enabled: yes
+        
   handlers:
     - name: Reload systemd
       systemd:
