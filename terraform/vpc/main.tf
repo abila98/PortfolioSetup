@@ -1,8 +1,8 @@
 # Create VPC
 resource "aws_vpc" "vpc_1" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr_block
   tags = {
-    Name = "vpc_1"
+    Name = "${var.tag_name}-vpc"
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc_1.id
 
   tags = {
-    Name = "gw_igw"
+    Name = "${var.tag_name}-igw"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_eip" "nat_eip" {
   vpc = true
   tags = {
-    Name = "nat_eip"
+    Name = "${var.tag_name}-nat-eip"
   }
 }
 
@@ -32,50 +32,50 @@ resource "aws_nat_gateway" "nat_gw" {
 # Create Public Subnets
 resource "aws_subnet" "public_1" {
   vpc_id                  = aws_vpc.vpc_1.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-west-1b"
+  cidr_block              = var.public_subnet_cidr_blocks[0]
+  availability_zone       = var.availability_zone
   map_public_ip_on_launch = true
   tags = {
-    Name = "public_1"
+    Name = "${var.tag_name}-public-1"
   }
 }
 
 resource "aws_subnet" "public_2" {
   vpc_id                  = aws_vpc.vpc_1.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-west-1c"
+  cidr_block              = var.public_subnet_cidr_blocks[1]
+  availability_zone       = var.availability_zone
   map_public_ip_on_launch = true
   tags = {
-    Name = "public_2"
+    Name = "${var.tag_name}-public-2"
   }
 }
 
 # Create Private Subnets
 resource "aws_subnet" "private_1" {
   vpc_id            = aws_vpc.vpc_1.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-west-1b"
+  cidr_block        = var.private_subnet_cidr_blocks[0]
+  availability_zone = var.availability_zone
   tags = {
-    Name = "private_1"
+    Name = "${var.tag_name}-private-1"
   }
 }
 
 resource "aws_subnet" "private_2" {
   vpc_id            = aws_vpc.vpc_1.id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-west-1c"
+  cidr_block        = var.private_subnet_cidr_blocks[1]
+  availability_zone = var.availability_zone
   tags = {
-    Name = "private_2"
+    Name = "${var.tag_name}-private-2"
   }
 }
 
 # Create Security Group
 resource "aws_security_group" "sg_1" {
-  name   = "Access from internet to port 8080"
+  name   = "Access from internet to port ${var.security_group_ingress_port}"
   vpc_id = aws_vpc.vpc_1.id
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = var.security_group_ingress_port
+    to_port     = var.security_group_ingress_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -86,7 +86,7 @@ resource "aws_security_group" "sg_1" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "sg_1"
+    Name = "${var.tag_name}-sg"
   }
 }
 
@@ -99,7 +99,7 @@ resource "aws_route_table" "public_rt" {
   }
 
   tags = {
-    Name = "public_rt"
+    Name = "${var.tag_name}-public-rt"
   }
 }
 
@@ -107,7 +107,7 @@ resource "aws_route_table" "public_rt" {
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.vpc_1.id
   tags = {
-    Name = "private_rt"
+    Name = "${var.tag_name}-private-rt"
   }
 
   route {
@@ -127,7 +127,7 @@ resource "aws_route_table_association" "subnet_association_2" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-resource "aws_route_table_association" "subnet_associatioin_3" {
+resource "aws_route_table_association" "subnet_association_3" {
   subnet_id      = aws_subnet.private_1.id
   route_table_id = aws_route_table.private_rt.id
 }
