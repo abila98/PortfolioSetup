@@ -1,6 +1,9 @@
 name: Terraform Deployment
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -29,10 +32,10 @@ jobs:
       run: terraform plan -input=false -out=tfplan
       working-directory: terraform/
 
-    # - name: Terraform Apply
-    #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'  # Only apply on main branch
-    #   run: terraform apply -input=false tfplan
-    #   env:
-    #     TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     TF_VAR_aws_region: "us-west-1"  # Adjust this to match your desired region
+    - name: Terraform Apply
+      if: github.event_name == 'workflow_dispatch'
+      run: terraform apply -input=false tfplan
+      env:
+        TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        TF_VAR_aws_region: "us-west-1"  # Adjust this to match your desired region
