@@ -34,7 +34,7 @@ jobs:
 
     - name: Terraform Apply
       if: github.event_name == 'workflow_dispatch'
-      run: terraform apply -input=false tfplan
+      run: terraform apply -input=false
       env:
         TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         TF_VAR_aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
