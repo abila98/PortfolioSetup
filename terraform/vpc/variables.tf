@@ -15,7 +15,7 @@ variable "private_subnet_cidr_blocks" {
 
 variable "ami_id" {
   description = "ID of the AMI to use for instances"
-  default     = "ami-0f9ae14ada80b3929"
+  default     = "ami-0b4256158dfc602f6"
 }
 
 variable "instance_type" {
@@ -33,13 +33,18 @@ variable "security_group_ingress_port" {
   default     = 8080
 }
 
-variable "availability_zone" {
+variable "availability_zone_1" {
   description = "Availability zone for resource deployment"
   default     = "us-west-1b"
 }
 
+variable "availability_zone_2" {
+  description = "Availability zone for resource deployment"
+  default     = "us-west-1c"
+}
+
 variable "tag_name" {
   description = "Name tag for resources"
-  default     = "kohee"
+  default     = "portfolio"
 }
 

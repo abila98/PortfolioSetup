@@ -1,14 +1,12 @@
 # Create an S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "tfstate_bucket" {
-  bucket = "kohee-terraform-state"
+  bucket = "portfolio-terraform-s3-bucket"
   acl    = "private"
-
   versioning {
     enabled = true
   }
-
   tags = {
-    Name = "kohee-s3"
+    Name = "portfolio-s3"
   }
 }
 
@@ -34,7 +32,7 @@ resource "aws_s3_bucket_versioning" "S3_with_versioning" {
 
 # Create a DynamoDB table for Terraform state locking
 resource "aws_dynamodb_table" "remotestate_table" {
-  name         = "kohee-terraform-state-lock"
+  name         = "portfolio-terraform-state-lock"
   hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"
 
@@ -44,6 +42,6 @@ resource "aws_dynamodb_table" "remotestate_table" {
   }
 
   tags = {
-    Name = "kohee-Dynamo"
+    Name = "portfolio-dynamodb"
   }
 }

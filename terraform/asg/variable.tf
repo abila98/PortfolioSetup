@@ -28,7 +28,7 @@ variable "vpc_cidr_block" {
 
 variable "ami_id" {
   description = "ID of the AMI to use for instances"
-  default     = "ami-0f9ae14ada80b3929"
+  default     = "ami-0b4256158dfc602f6"
 }
 
 variable "instance_type" {
@@ -41,4 +41,7 @@ variable "key_name" {
   default     = "aws-key"
 }
 
-
+variable "tag_name" {
+  description = "Name tag for resources"
+  default     = "portfolio"
+}

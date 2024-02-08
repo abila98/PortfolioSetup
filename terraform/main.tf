@@ -1,6 +1,3 @@
-module "backend" {
-  source = "./backend"
-}
 
 module "vpc" {
   source = "./vpc"

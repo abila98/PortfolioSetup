@@ -1,6 +1,6 @@
 # Create a new launch template
 resource "aws_launch_template" "lt_1" {
-  name_prefix   = "kohee-lt"
+  name_prefix   = "${var.tag_name}-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
@@ -13,7 +13,7 @@ resource "aws_launch_template" "lt_1" {
 
 # Define a target group for load balancing
 resource "aws_lb_target_group" "tg_1" {
-  name     = "kohee-tg"
+  name     = "${var.tag_name}-tg"
   port     = 8080
   protocol = "HTTP" # Adjust protocol according to your application
   vpc_id   = var.vpc_id
@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "tg_1" {
   health_check {
     protocol            = "HTTP"
     port                = "8080"
-    path                = "/coffeeapp/index.html"
+    path                = "/portfolio/index.html"
     timeout             = 5
     interval            = 30
     healthy_threshold   = 2
@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "tg_1" {
 
 # Create a new Auto Scaling Group
 resource "aws_autoscaling_group" "asg_1" {
-  name                      = "kohee-asg"
+  name                      = "${var.tag_name}-asg"
   min_size                  = 1
   max_size                  = 1
   desired_capacity          = 1
@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "asg_1" {
 
 # Create Load Balancer
 resource "aws_lb" "lb_1" {
-  name               = "kohee-lb"
+  name               = "${var.tag_name}-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [var.security_group_id]
@@ -70,7 +70,7 @@ resource "aws_lb_listener_rule" "lr_1" {
   
   condition {
     path_pattern {
-      values = ["/coffeeapp/index.html"]
+      values = ["/portfolio/index.html"]
     }
   }
 }
