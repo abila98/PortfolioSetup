@@ -12,7 +12,7 @@
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "instance_type": "{{user `instance_type`}}",
-      "ami_name": "coffee-{{user `tag_version`}}",
+      "ami_name": "portfolio-{{user `tag_version`}}",
       "source_ami_filter": {
         "filters": {
           "root-device-type": "ebs",
