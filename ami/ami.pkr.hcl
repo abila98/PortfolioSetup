@@ -45,7 +45,7 @@ variable "ansible_vault_password" {
 source "amazon-ebs" "example" {
   region          = var.region
   instance_type   = var.instance_type
-  ami_name        = "portfolio-{{user `tag_version`}}"
+  ami_name        = "portfolio-${var.tag_version}"
   source_ami_filter {
     filters = {
       root-device-type = "ebs"
@@ -64,7 +64,7 @@ build {
 
 
   provisioner "ansible" {
-    playbook_file   = "ansible/deploy.yml"
+    playbook_file   = "ami/ansible/deploy.yml"
     extra_arguments = ["--vault-password-file=vault_password_file"]
   }
 }

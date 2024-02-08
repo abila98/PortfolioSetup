@@ -32,7 +32,7 @@ jobs:
           
       - name: Setup Vault Password file
         run: |
-          echo "${{ secrets.VAULT_PASSWORD_FILE }}" >> ami/vault_password_file
+          echo "${{ secrets.VAULT_PASSWORD_FILE }}" >> vault_password_file
        
       - name: Packer init
         run: |
