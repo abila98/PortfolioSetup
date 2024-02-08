@@ -33,8 +33,12 @@ jobs:
       - name: Setup Vault Password file
         run: |
           echo "${{ secrets.VAULT_PASSWORD_FILE }}" >> ami/vault_password_file
-        
+       
+      - name: Packer init
+        run: |
+          packer init ami/ami.pkr.hcl
+
       - name: Run Packer Build
         run: |
-          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.json
+          packer build -var 'tag_version=${{ steps.extract-version.outputs.version }}' ami/ami.pkr.hcl
 
