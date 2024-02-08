@@ -64,7 +64,7 @@ build {
 
 
   provisioner "ansible" {
-    playbook_file   = "ansible/deploy.yml"
+    playbook_file   = "ami/ansible/deploy.yml"
     extra_arguments = ["--vault-password-file=vault_password_file"]
   }
 }
