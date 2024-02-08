@@ -45,7 +45,7 @@ variable "ansible_vault_password" {
 source "amazon-ebs" "example" {
   region          = var.region
   instance_type   = var.instance_type
-  ami_name        = "portfolio-{{user `tag_version`}}"
+  ami_name        = "portfolio-${var.tag_version}"
   source_ami_filter {
     filters = {
       root-device-type = "ebs"
