@@ -1,4 +1,4 @@
-name: Terraform Create Infra
+name: Terraform Destroy Infra
 
 on:
   push:
@@ -28,13 +28,9 @@ jobs:
       run: terraform init
       working-directory: terraform/
 
-    - name: Terraform Plan
-      run: terraform plan -input=false -out=tfplan
-      working-directory: terraform/
-
-    - name: Terraform Apply
+    - name: Terraform Destroy
       if: github.event_name == 'workflow_dispatch'
-      run: terraform apply --auto-approve -input=false
+      run: terraform destroy --auto-approve -input=false
       working-directory: terraform/
       env:
         TF_VAR_aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
