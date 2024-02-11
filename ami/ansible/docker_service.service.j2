@@ -5,7 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
-ExecStart=/usr/bin/docker run --name portfolioapp -p 8443:8443 -p 8080:8080 ghcr.io/abila98/portfolioapp:latest
+ExecStart=/usr/bin/docker run --name portfolioapp -p 8080:8080 ghcr.io/abila98/portfolioapp:latest
 ExecStop=/usr/bin/docker stop -t 2 portfolioapp
 
 [Install]
