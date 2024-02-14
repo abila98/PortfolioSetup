@@ -1,8 +1,6 @@
 name: Terraform Create Infra
 
 on:
-  schedule:
-    - cron: '0 18 * * *'  # Runs at midnight UTC every day
   push:
     branches:
       - main
