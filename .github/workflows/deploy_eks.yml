@@ -11,7 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      MYGITHUB_USERNAMEE: ${{ secrets.MYGITHUB_USERNAME }}
+      MYGITHUB_USERNAME: ${{ secrets.MYGITHUB_USERNAME }}
       MYGITHUB_PASSWORD: ${{ secrets.MYGITHUB_PASSWORD }}
     steps:
     - name: Checkout repository
