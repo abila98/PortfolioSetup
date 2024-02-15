@@ -31,6 +31,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-1
 
-    - name: Dwstroy EKS cluster
+    - name: Destroy EKS cluster
       run: |
-        eksctl destroy cluster --name ${{ github.event.inputs.cluster-name }}
+        eksctl delete cluster --name ${{ github.event.inputs.cluster-name }}
