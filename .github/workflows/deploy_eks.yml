@@ -35,7 +35,7 @@ jobs:
       run: |
         eksctl create cluster \
           --name ${{ github.event.inputs.cluster-name }} \
-          --version 1.21 \
+          --version 1.29 \
           --nodegroup-name standard-workers \
           --node-type t3.medium \
           --nodes 1 \
