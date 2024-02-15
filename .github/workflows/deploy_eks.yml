@@ -50,11 +50,7 @@ jobs:
 
     - name: Create Docker registry secret
       run: |
-        kubectl create secret docker-registry github \
-          --docker-server=ghcr.io \
-          --docker-username=$MYGITHUB_USERNAME \
-          --docker-password=$MYGITHUB_PASSWORD \
-          --docker-email=abilanadar1998@gmail.com
+        kubectl create secret docker-registry github --docker-server=ghcr.io --docker-username=$MYGITHUB_USERNAME --docker-password=$MYGITHUB_PASSWORD --docker-email=abilanadar1998@gmail.com
 
     - name: Deployment
       run: kubectl apply -f eks/deployment.yaml
