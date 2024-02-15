@@ -1,0 +1,48 @@
+name: Deploy to EKS
+
+on:
+  workflow_dispatch:
+    inputs:
+      cluster-name:
+        description: 'Name of the EKS cluster'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-1
+
+    - name: Create EKS cluster
+      run: |
+        eksctl create cluster \
+          --name ${{ github.event.inputs.cluster-name }} \
+          --version 1.21 \
+          --nodegroup-name standard-workers \
+          --node-type t3.medium \
+          --nodes 1 \
+          --nodes-min 1 \
+          --nodes-max 1
+
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v1
+      with:
+        method: eks
+        eks-version: '1.21'
+        kubeconfig: ${{ env.HOME }}/.kube/config
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-1
+        cluster-name: ${{ github.event.inputs.cluster-name }}
+
+    # - name: Deploy application
+    #   run: kubectl apply -f path/to/your/deployment.yaml
