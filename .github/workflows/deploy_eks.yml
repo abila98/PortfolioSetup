@@ -10,7 +10,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      MYGITHUB_USERNAMEE: ${{ secrets.MYGITHUB_USERNAME }}
+      MYGITHUB_PASSWORD: ${{ secrets.MYGITHUB_PASSWORD }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -46,5 +48,16 @@ jobs:
       run: |
         aws eks --region us-west-1 update-kubeconfig --name ${{ github.event.inputs.cluster-name }}
 
-    # - name: Deploy application
-    #   run: kubectl apply -f eks/deployment.yaml
+    - name: Create Docker registry secret
+      run: |
+        kubectl create secret docker-registry github \
+          --docker-server=ghcr.io \
+          --docker-username=$MYGITHUB_USERNAME \
+          --docker-password=$MYGITHUB_PASSWORD \
+          --docker-email=abilanadar1998@gmail.com
+
+    - name: Deployment
+      run: kubectl apply -f eks/deployment.yaml
+
+    - name: Service
+      run: kubectl apply -f eks/svc.yaml
