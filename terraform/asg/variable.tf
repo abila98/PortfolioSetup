@@ -46,6 +46,3 @@ variable "tag_name" {
   default     = "portfolio"
 }
 
-#variable "load_balancer_arn" {
-#  description = "LB arn:"
-#}
