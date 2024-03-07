@@ -79,7 +79,9 @@ resource "aws_lb_listener_rule" "lr_1" {
 resource "aws_lb_listener" "listener_1" {
   load_balancer_arn = aws_lb.lb_1.arn
   port              = "8080"
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = "arn:aws:acm:us-west-1:481030671750:certificate/4eed5a2f-7d48-4a9f-bc18-c24428e489b8" 
   
   default_action {
     type             = "forward"
