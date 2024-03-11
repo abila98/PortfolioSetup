@@ -2,7 +2,7 @@ name: Terraform Destroy Infra
 
 on:
   schedule:
-    - cron: '05 17 * * *'  # Run at 5 PM UTC (adjusted for IST)
+    - cron: '10 17 * * *'  # Run at 5 PM UTC (adjusted for IST)
   push:
     branches:
       - main
@@ -30,7 +30,7 @@ jobs:
       working-directory: terraform/
 
     - name: Terraform Destroy
-      if: github.event_name == 'workflow_dispatch'
+      if: github.event_name == 'workflow_dispatch || schedule'
       run: terraform destroy --auto-approve -input=false
       working-directory: terraform/
       env:
