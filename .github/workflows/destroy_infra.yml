@@ -2,7 +2,7 @@ name: Terraform Destroy Infra
 
 on:
   schedule:
-    - cron: '10 17 * * *'  # Run at 5 PM UTC (adjusted for IST)
+    - cron: '45 11 * * *'  
   push:
     branches:
       - main
