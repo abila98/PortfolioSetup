@@ -2,7 +2,7 @@ name: Terraform Destroy Infra
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # Run at 5 PM UTC (adjusted for IST)
+    - cron: '05 17 * * *'  # Run at 5 PM UTC (adjusted for IST)
   push:
     branches:
       - main
@@ -11,7 +11,7 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-          
+    steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
