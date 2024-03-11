@@ -11,11 +11,6 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-
-    steps:
-    - uses: zhouzhu859/action-schedule-at@v3 
-      with:
-        schedule: 'Asia/Kolkata'
           
     - name: Checkout repository
       uses: actions/checkout@v2
