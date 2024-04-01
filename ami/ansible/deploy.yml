@@ -21,15 +21,14 @@
       become: yes
 
     - name: Install Docker
-      yum:
-        name: docker
-        state: present
+      command: sudo yum install docker -y
       become: yes
 
-    - name: Install Docker Compose
-      docker_compose:
-        state: present
-      become: yes
+    - name: Download Docker Compose
+      command: "sudo curl -L 'https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64' -o /usr/bin/docker-compose"
+
+    - name: Make Docker Compose executable
+      command: "sudo chmod +x /usr/bin/docker-compose"
 
     - name: Add ec2-user to the Docker group
       become: yes
