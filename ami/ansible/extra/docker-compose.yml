@@ -1,0 +1,29 @@
+
+services:
+  portfolio:
+    container_name: portfolio
+    image: ghcr.io/abila98/portfolioapp:latest
+    ports:
+      - "8080:8080"
+    env_file: secrets.txt
+    networks:
+      - portfolio_network
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    env_file: secrets.txt
+    ports:
+      - "3306:3306"
+    networks:
+      - portfolio_network
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql-data:/var/lib/mysql
+networks:
+  portfolio_network:
+    driver: bridge
+
+volumes:
+  mysql-data:

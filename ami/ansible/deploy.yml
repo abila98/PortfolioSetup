@@ -1,29 +1,50 @@
 ---
 - name: Install Docker and run Docker image as a service
   hosts: all
-  become: true
+  #become: true
 
   vars:
     docker_password: !vault |
       $ANSIBLE_VAULT;1.1;AES256
-      32653264663238633032313364633134316162646132323330643361343434366164616138343166
-      3232393337663464383230346530363930626334373132310a363430376437333663353039636561
-      37333932323565626565373233343337666334633866633232346136623633323439346633353033
-      3730376562643239390a303438366530336233336638343565326439393430343465336265323039
-      31343964383562313663656265646533373763376666353134623339303134313932343739343062
-      3235666461343532306435626164616365643863663663363565
+      65363333333838653631616334333832353461653235383237626636663965373538393735303930
+      6565326464306330363438333832383933326336636131360a643533343033653032356637303438
+      38333332623932636236616566626539303138646136383164363161326164393239376463313130
+      6631393830336663650a643334613436303366343839613935626332646537633134383434346230
+      38363934643534396134613633303138623031396330373832663835383963323235386335363237
+      3531656662643136653537653732643863346566636638663934
+
   tasks:
     - name: Update Yum
+      yum:
+        name: '*'
+        state: latest
+      become: yes
+
+    - name: Install Docker
+      yum:
+        name: docker
+      state: present
+      become: yes
+
+    - name: Update Yum
       command: sudo yum update -y
+      become: yes
 
     - name: Install Docker
       command: sudo yum install docker -y
+      become: yes
 
-    - name: Install pip3
-      command: sudo yum install python3-pip -y
+    - name: Install Docker Compose
+      docker_compose:
+        state: present
+      become: yes
 
-    - name: Install Docker SDK for Python
-      command: "pip3 install docker --ignore-installed"
+    - name: Add ec2-user to the Docker group
+      become: yes
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
 
     - name: Start Docker service
       become: true
@@ -33,27 +54,46 @@
         enabled: yes
 
     - name: Log in to Docker registry
+      become: true
       docker_login:
         registry_url: "ghcr.io/abila98"
         username: "abila98"
         password: "{{ docker_password }}"
 
-    - name: Create systemd service file
-      template:
-        src: docker_service.service.j2
-        dest: /etc/systemd/system/docker_service.service
-      notify:
-        - Reload systemd
+    - name: Create a folder
+      file:
+        path: /home/ec2-user/portfolio
+        state: directory
+        mode: 0755  
 
-    - name: Start App service
-      service:
-        name: docker_service
-        state: started
-        enabled: yes
+    - name: Copy a folder
+      copy:
+        src: ./extra/
+        dest: /home/ec2-user/portfolio
 
-  handlers:
-    - name: Reload systemd
-      systemd:
-        daemon_reload: yes
-        state: restarted
-        name: docker_service
+    - name: Change ownership
+      become: true
+      file:
+        path: /home/ec2-user/portfolio  
+        state: directory
+        owner: ec2-user
+        group: docker
+        mode: 0755
+
+    - name: Change mode of shell scripts
+      become: true
+      file:
+        path: "{{ item }}"
+        mode: u+x
+      loop:
+        - /home/ec2-user/portfolio/secret.sh
+        - /home/ec2-user/portfolio/service.sh
+
+    - name: Run shell script with shell module
+      become: true
+      shell: /home/ec2-user/portfolio/service.sh
+
+    - name: Reload systemd daemon
+      become: true
+      command: systemctl daemon-reload
+

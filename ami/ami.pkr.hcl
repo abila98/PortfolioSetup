@@ -24,7 +24,7 @@ variable "instance_type" {
 
 variable "ami_id" {
   type    = string
-  default = "ami-02d3fd86e6a2f5122"
+  default = "ami-0d5ae304a0b933620"
 }
 
 variable "owner_acc_id" {
@@ -62,8 +62,8 @@ source "amazon-ebs" "example" {
 build {
   sources = ["source.amazon-ebs.example"]
 
-
   provisioner "ansible" {
+    user = "ec2-user"
     playbook_file   = "ami/ansible/deploy.yml"
     extra_arguments = ["--vault-password-file=vault_password_file"]
   }
