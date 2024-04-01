@@ -2,10 +2,12 @@
 resource "aws_launch_template" "lt_1" {
   name_prefix   = "${var.tag_name}-lt"
   image_id      = var.ami_id
-  iam_instance_profile = "arn:aws:iam::992382726691:role/read_secret_role"
   instance_type = var.instance_type
   key_name      = var.key_name
-  
+  iam_instance_profile {
+    name = "read_secret_role"
+  }
+
   network_interfaces {
     subnet_id       = var.public_subnet_ids[0] # Selecting the first public subnet
     security_groups = [var.security_group_id]
