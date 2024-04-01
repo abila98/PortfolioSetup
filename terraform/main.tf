@@ -1,7 +1,6 @@
-
 module "vpc" {
   source = "./vpc"
-  ami_id = var.ami_id
+  ami_id = data.aws_ami.latest_ami.id
 }
 
 module "asg" {
