@@ -87,4 +87,10 @@
     - name: Reload systemd daemon
       become: true
       command: systemctl daemon-reload
+    
+    - name: Enable the service
+      become: true
+      systemd:
+        name: portfolio
+        enabled: yes
 
