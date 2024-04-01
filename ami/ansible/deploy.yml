@@ -23,15 +23,7 @@
     - name: Install Docker
       yum:
         name: docker
-      state: present
-      become: yes
-
-    - name: Update Yum
-      command: sudo yum update -y
-      become: yes
-
-    - name: Install Docker
-      command: sudo yum install docker -y
+        state: present
       become: yes
 
     - name: Install Docker Compose
