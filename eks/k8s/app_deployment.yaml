@@ -21,22 +21,22 @@ spec:
                 secretKeyRef:
                   name: mysecrets
                   key: MYSQL_ROOT_PASSWORD
-            - name: SMTP_HOST
+            - name: smtpHost
               valueFrom:
                 secretKeyRef:
                   name: mysecrets
                   key: smtpHost
-            - name: SMTP_USERNAME
+            - name: smtpUsername
               valueFrom:
                 secretKeyRef:
                   name: mysecrets
                   key: smtpUsername
-            - name: SMTP_PASSWORD
+            - name: smtpPassword
               valueFrom:
                 secretKeyRef:
                   name: mysecrets
                   key: smtpPassword
-            - name: DB_PASSWORD
+            - name: dbpassword
               valueFrom:
                 secretKeyRef:
                   name: mysecrets
