@@ -35,8 +35,7 @@ spec:
             items:
               - key: init.sql
                 path: init.sql
-
         - name: mysql-data
-          hostPath:
-            path: /tmp/sql
+          persistentVolumeClaim:
+            claimName: mysql-data-pvc
 

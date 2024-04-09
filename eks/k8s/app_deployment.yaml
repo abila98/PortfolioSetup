@@ -16,11 +16,6 @@ spec:
       - name: portfolioapp
         image: ghcr.io/abila98/portfolioapp:latest
         env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysecrets
-                  key: MYSQL_ROOT_PASSWORD
             - name: smtpHost
               valueFrom:
                 secretKeyRef:
