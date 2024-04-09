@@ -1,1 +1,3 @@
 #ami/vault_password_file
+eks/*terraform*
+terraform/*terraform*
