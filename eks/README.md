@@ -159,3 +159,10 @@ http://loadbalancer_dns_name:80/portfolio/index.html
 ```
 Visit the provided URL to access your live website.
 
+## Contributing
+
+Contributions to PortfolioSetup are welcome! Feel free to open issues for feature requests or bug reports, and submit pull requests for proposed changes.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
