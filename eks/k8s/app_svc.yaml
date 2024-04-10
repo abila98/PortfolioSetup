@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: portfolio-service
+  name: app-svc
 spec:
   selector:
-    app: portfolio-app
+    app: app-deployment
   ports:
     - protocol: TCP
       port: 80

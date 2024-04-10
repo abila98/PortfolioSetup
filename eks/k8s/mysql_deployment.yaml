@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: mysql-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: mysql-deployment
   template:
     metadata:
       labels:
-        app: mysql
+        app: mysql-deployment
     spec:
       containers:
         - name: mysql
@@ -19,15 +19,38 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysecrets
+                  name: mysql-secret
                   key: MYSQL_ROOT_PASSWORD
           ports:
             - containerPort: 3306
+          resources:
+            limits:
+              cpu: 500m
+            requests:
+              cpu: 100m
           volumeMounts:
             - name: mysql-data
               mountPath: /var/lib/mysql/
             - name: mysql-init-sql
               mountPath: /docker-entrypoint-initdb.d/
+          # Liveness Probe
+          livenessProbe:
+            exec:
+              command:
+                - "sh"
+                - "-c"
+                - "mysqladmin -hlocalhost -uroot -p$(MYSQL_ROOT_PASSWORD) ping"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          # Readiness Probe
+          readinessProbe:
+            exec:
+              command:
+               - "sh"
+               - "-c"
+               - "mysqladmin -hlocalhost -uroot -p$(MYSQL_ROOT_PASSWORD) ping"
+            initialDelaySeconds: 10
+            periodSeconds: 5 
       volumes:
         - name: mysql-init-sql
           configMap:
