@@ -33,16 +33,16 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-1
 
-    # - name: Create EKS cluster
-    #   run: |
-    #     eksctl create cluster \
-    #       --name ${{ github.event.inputs.cluster-name }} \
-    #       --version 1.29 \
-    #       --nodegroup-name standard-workers \
-    #       --node-type t3.medium \
-    #       --nodes 1 \
-    #       --nodes-min 1 \
-    #       --nodes-max 1
+    - name: Create EKS cluster
+      run: |
+        eksctl create cluster \
+          --name ${{ github.event.inputs.cluster-name }} \
+          --version 1.29 \
+          --nodegroup-name standard-workers \
+          --node-type t2.large \
+          --nodes 1 \
+          --nodes-min 1 \
+          --nodes-max 1
 
     - name: Configure kubectl
       run: |
@@ -58,7 +58,7 @@ jobs:
 
 
     - name: Deployment
-      run: kubectl apply -f eks/deployment.yaml
+      run: kubectl apply -f eks/k8s/
 
-    - name: Service
-      run: kubectl apply -f eks/svc.yaml
+    # - name: Service
+    #   run: kubectl apply -f eks/svc.yaml
