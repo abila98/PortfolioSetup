@@ -35,7 +35,7 @@ variable "security_group_ingress_port" {
 
 variable "availability_zone_1" {
   description = "Availability zone for resource deployment"
-  default     = "us-west-1b"
+  default     = "us-west-1a"
 }
 
 variable "availability_zone_2" {
