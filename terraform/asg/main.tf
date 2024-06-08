@@ -5,7 +5,7 @@ resource "aws_launch_template" "lt_1" {
   instance_type = var.instance_type
   key_name      = var.key_name
   iam_instance_profile {
-    name = "read_secret_role"
+    name = "${var.tag_name}-instance-profile"
   }
 
   network_interfaces {
