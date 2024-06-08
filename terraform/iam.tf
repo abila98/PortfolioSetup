@@ -1,8 +1,8 @@
 #IAM to read SSM Parameters
 
 # Create IAM Role
-resource "aws_iam_role" "ec2_s3_role" {
-  name = "${var.tag_name}-ec2-s3-role"
+resource "aws_iam_role" "ec2_sec_role" {
+  name = "${var.tag_name}-ec2-sec-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,14 +18,14 @@ resource "aws_iam_role" "ec2_s3_role" {
   })
 
   tags = {
-    Name = "${var.tag_name}-ec2-s3-role"
+    Name = "${var.tag_name}-ec2-sec-role"
   }
 }
 
 # Attach Policy to IAM Role
-resource "aws_iam_role_policy" "s3_read_policy" {
-  name = "${var.tag_name}-s3-read-policy"
-  role = aws_iam_role.ec2_s3_role.id
+resource "aws_iam_role_policy" "sec_read_policy" {
+  name = "${var.tag_name}-sec-read-policy"
+  role = aws_iam_role.ec2_sec_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -33,7 +33,7 @@ resource "aws_iam_role_policy" "s3_read_policy" {
       {
         Effect = "Allow"
         Action = [
-          "s3:GetObject"
+          "secretsmanager:*"
         ]
         Resource = "*"
       }
@@ -44,7 +44,7 @@ resource "aws_iam_role_policy" "s3_read_policy" {
 # Create IAM Instance Profile
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.tag_name}-instance-profile"
-  role = aws_iam_role.ec2_s3_role.name
+  role = aws_iam_role.ec2_sec_role.name
 
   tags = {
     Name = "${var.tag_name}-instance-profile"
