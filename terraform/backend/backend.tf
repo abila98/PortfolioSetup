@@ -1,6 +1,6 @@
 # Create an S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "tfstate_bucket" {
-  bucket = "portfolio-terraform-s3-bucket"
+  bucket = "portfolio-terraform-s3-bucket-v1"
   acl    = "private"
   versioning {
     enabled = true
