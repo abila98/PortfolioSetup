@@ -46,7 +46,7 @@ resource "aws_autoscaling_group" "asg_1" {
     id = aws_launch_template.lt_1.id
   }
   
-  vpc_zone_identifier = var.private_subnet_ids
+  vpc_zone_identifier = var.public_subnet_ids
   
   target_group_arns = ["${aws_lb_target_group.tg_1.arn}"]
 }
