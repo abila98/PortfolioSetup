@@ -30,14 +30,22 @@
     - name: Make Docker Compose executable
       command: "sudo chmod +x /usr/bin/docker-compose"
 
-    - name: Download awscli
-      command: "sudo curl -L 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip' -o awscliv2.zip"
-    
-    - name: Unzip
-      command: "unzip awscliv2.zip"
+    - name: Download AWS CLI
+      get_url:
+        url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+        dest: "/tmp/awscliv2.zip"
+        mode: '0644'
 
-    - name: Run Installer
-      command: "sudo ./aws/install"
+    - name: Unzip AWS CLI package
+      unarchive:
+        src: "/tmp/awscliv2.zip"
+        dest: "/tmp/"
+        remote_src: yes
+
+    - name: Install AWS CLI
+      command: "/tmp/aws/install"
+      args:
+        creates: "/usr/local/bin/aws"
 
     - name: Add ec2-user to the Docker group
       become: yes
