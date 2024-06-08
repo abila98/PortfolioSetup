@@ -13,6 +13,5 @@ data "aws_ami" "latest_ami" {
     values = ["hvm"]
   }
 
-  owners = ["992382726691"]  # Canonical account ID for Ubuntu AMIs
-
+  owners = ["730335274738"] 
 }
