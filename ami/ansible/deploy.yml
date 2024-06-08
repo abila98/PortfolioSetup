@@ -20,6 +20,19 @@
         state: latest
       become: yes
 
+    - name: Ensure unzip is installed
+      yum:
+        name: unzip
+        state: present
+      become: yes
+
+    - name: Ensure jq is installed
+      yum:
+        name: jq
+        state: present
+      become: yes
+
+
     - name: Install Docker
       command: sudo yum install docker -y
       become: yes
