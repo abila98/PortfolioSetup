@@ -107,7 +107,7 @@
       become: true
       file:
         path: "{{ item }}"
-        mode: u+x
+        mode: +x
       loop:
         - /home/ec2-user/portfolio/secret.sh
         - /home/ec2-user/portfolio/service.sh
