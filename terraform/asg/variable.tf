@@ -33,7 +33,7 @@ variable "ami_id" {
 
 variable "instance_type" {
   description = "Instance type for EC2 instances"
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "key_name" {
