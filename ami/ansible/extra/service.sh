@@ -12,15 +12,15 @@ Requires=docker.service
 After=docker.service
 [Service]
 Restart=always
-User=root
-Group=docker
+User=ec2-user
+Group=ec2-user
 WorkingDirectory=/home/ec2-user/portfolio
 # Shutdown container (if running) when unit is started
-ExecStartPre= sh secret.sh
+ExecStartPre=/bin/sh secret.sh
 # Start container when unit is started
-ExecStart=$(which docker-compose) -f docker-compose.yml up
+ExecStart=/usr/bin/docker-compose -f docker-compose.yml up
 # Stop container when unit is stopped
-ExecStop=$(which docker-compose) -f docker-compose.yml down
+ExecStop=/usr/bin/docker-compose -f docker-compose.yml down
 [Install]
 WantedBy=multi-user.target
 EOF
