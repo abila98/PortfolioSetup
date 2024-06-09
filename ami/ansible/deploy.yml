@@ -38,23 +38,30 @@
         state: present
       become: yes
 
-
-    - name: Install Docker
-      command: sudo yum install docker -y
+    - name: Install Docker Compose
+      yum:
+        name: docker-compose
+        state: present
       become: yes
 
-    - name: Download Docker Compose
-      command: "sudo curl -L 'https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64' -o /usr/bin/docker-compose"
-
-    - name: Make Docker Compose executable
-      command: "sudo chmod +x /usr/bin/docker-compose"
-
-    - name: Add ec2-user to the Docker group
+    - name: Install Docker Compose
+      yum:
+        name: docker-compose
+        state: present
       become: yes
-      user:
-        name: ec2-user
-        groups: docker
-        append: yes
+
+    # - name: Download Docker Compose
+    #   command: "sudo curl -L 'https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64' -o /usr/bin/docker-compose"
+
+    # - name: Make Docker Compose executable
+    #   command: "sudo chmod +x /usr/bin/docker-compose"
+
+    # - name: Add ec2-user to the Docker group
+    #   become: yes
+    #   user:
+    #     name: ec2-user
+    #     groups: docker
+    #     append: yes
 
     - name: Start Docker service
       become: true
