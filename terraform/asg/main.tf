@@ -4,6 +4,17 @@ resource "aws_launch_template" "lt_1" {
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
+
+  block_device_mappings {
+    device_name = "/dev/xvda"
+
+    ebs {
+      volume_size = 4  
+      volume_type = "gp2"  
+      delete_on_termination = true
+    }
+
+  }
   
   network_interfaces {
     subnet_id       = var.public_subnet_ids[0] # Selecting the first public subnet
