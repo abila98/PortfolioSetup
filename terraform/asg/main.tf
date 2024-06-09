@@ -37,8 +37,8 @@ resource "aws_lb_target_group" "tg_1" {
     protocol            = "HTTP"
     port                = "8080"
     path                = "/portfolio/index.html"
-    timeout             = 5
-    interval            = 30
+    timeout             = 120
+    interval            = 200
     healthy_threshold   = 2
     unhealthy_threshold = 2
     matcher             = "200"
