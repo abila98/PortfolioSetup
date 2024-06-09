@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set the AWS region
+export AWS_DEFAULT_REGION="us-west-1"
+
 # Fetch secret values from AWS Secrets Manager
 SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:us-west-1:730335274738:secret:portfolio-secret-4o7xTQ --query SecretString --output text)
 
