@@ -4,6 +4,18 @@ resource "aws_launch_template" "lt_1" {
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
+  update_default_version = true
+
+  block_device_mappings {
+    device_name = "/dev/xvda"
+
+    ebs {
+      volume_size = 4  
+      volume_type = "gp2"  
+      delete_on_termination = true
+    }
+
+  }
   iam_instance_profile {
     name = "${var.tag_name}-instance-profile"
   }
