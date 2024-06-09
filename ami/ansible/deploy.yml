@@ -94,15 +94,6 @@
         src: ./extra/
         dest: /home/ec2-user/portfolio
 
-    - name: Change ownership
-      become: true
-      file:
-        path: /home/ec2-user/portfolio  
-        state: directory
-        owner: ec2-user
-        group: ec2-user
-        mode: 0755
-
     - name: Change mode of shell scripts
       become: true
       file:
@@ -115,6 +106,15 @@
     - name: Run shell script with shell module
       become: true
       shell: /home/ec2-user/portfolio/service.sh
+
+    - name: Change ownership
+      become: true
+      file:
+        path: /home/ec2-user/portfolio  
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: 0777
 
     - name: Reload systemd daemon
       become: true
