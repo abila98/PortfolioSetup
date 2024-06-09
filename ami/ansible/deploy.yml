@@ -55,13 +55,22 @@
         path: "/usr/bin/docker-compose"
         mode: "u+x"
 
-    # - name: Add ec2-user to the Docker group
-    #   become: yes
-    #   user:
-    #     name: ec2-user
-    #     groups: docker
-    #     append: yes
-
+    - name: Add ec2-user to the Docker group
+      become: yes
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+        
+    - name: Change ownership
+      become: true
+      file:
+        path: /var/run/docker.sock
+        state: file
+        owner: ec2-user
+        group: docker
+        mode: 0755
+        
     - name: Start Docker service
       become: true
       service:
@@ -70,7 +79,6 @@
         enabled: yes
 
     - name: Log in to Docker registry
-      become: true
       docker_login:
         registry_url: "ghcr.io/abila98"
         username: "abila98"
