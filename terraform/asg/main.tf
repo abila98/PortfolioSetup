@@ -50,6 +50,7 @@ resource "aws_autoscaling_group" "asg_1" {
   desired_capacity          = 1
   health_check_type         = "ELB"
   health_check_grace_period = 60
+  termination_policies = ["Default"]
   
   launch_template {
     id = aws_launch_template.lt_1.id
