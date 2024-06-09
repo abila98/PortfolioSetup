@@ -31,6 +31,12 @@
         name: jq
         state: present
       become: yes
+      
+    - name: Ensure awscli is installed
+      yum:
+        name: awscli
+        state: present
+      become: yes
 
 
     - name: Install Docker
@@ -42,26 +48,6 @@
 
     - name: Make Docker Compose executable
       command: "sudo chmod +x /usr/bin/docker-compose"
-
-    - name: Download AWS CLI
-      get_url:
-        url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-        dest: "/tmp/awscliv2.zip"
-        mode: '0644'
-      become: yes
-
-    - name: Unzip AWS CLI package
-      unarchive:
-        src: "/tmp/awscliv2.zip"
-        dest: "/tmp/"
-        remote_src: yes
-      become: yes
-
-    - name: Install AWS CLI
-      command: "/tmp/aws/install"
-      args:
-        creates: "/usr/local/bin/aws"
-      become: yes
 
     - name: Add ec2-user to the Docker group
       become: yes
