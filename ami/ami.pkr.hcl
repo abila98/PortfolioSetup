@@ -24,7 +24,7 @@ variable "instance_type" {
 
 variable "ami_id" {
   type    = string
-  default = "ami-0d5ae304a0b933620"
+  default = "ami-0a2781a262879e465"
 }
 
 variable "owner_acc_id" {
