@@ -62,20 +62,25 @@
         groups: docker
         append: yes
         
-    - name: Change ownership
-      become: true
-      file:
-        path: /var/run/docker.sock
-        state: file
-        owner: ec2-user
-        group: docker
-        mode: 0755
-        
     - name: Start Docker service
       become: true
       service:
         name: docker
         state: started
+        enabled: yes
+        
+    - name: Change ownership of /var/run/docker.sock
+      become: yes
+      file:
+        path: /var/run/docker.sock
+        owner: ec2-user
+        group: docker
+
+    - name: Start Docker service
+      become: true
+      service:
+        name: docker
+        state: restarted
         enabled: yes
 
     - name: Log in to Docker registry
