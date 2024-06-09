@@ -4,6 +4,7 @@ resource "aws_launch_template" "lt_1" {
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
+  update_default_version = true
 
   block_device_mappings {
     device_name = "/dev/xvda"
