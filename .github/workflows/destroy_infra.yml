@@ -1,8 +1,8 @@
 name: Terraform Destroy Infra
 
 on:
-  schedule:
-    - cron: '10 12 * * *'  
+  # schedule:
+  #   - cron: '10 12 * * *'  
   push:
     branches:
       - main
